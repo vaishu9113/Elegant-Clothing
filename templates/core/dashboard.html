@@ -1,0 +1,248 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | Elegant Clothing{% endblock %}
+
+{% block content %}
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <i class="fas fa-crown"></i>
+        <span>ELEGANT</span>
+    </div>
+
+    <nav>
+        <div class="nav-section-title">Dashboard</div>
+        <ul>
+            <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link active"><i class="fas fa-th-large"></i> <span>Overview</span></a></li>
+            {% if user.is_staff %}
+            <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="fas fa-chart-line"></i> <span>Analytics</span></a></li>
+            <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> <span>Sales Report</span></a></li>
+            {% endif %}
+        </ul>
+
+        {% if user.is_staff %}
+        <div class="nav-section-title">Product Management</div>
+        <ul>
+            <li class="nav-item"><a href="{% url 'shop' %}" class="nav-link"><i class="fas fa-plus-circle"></i> <span>Add Product</span></a></li>
+            <li class="nav-item"><a href="{% url 'shop' %}" class="nav-link"><i class="fas fa-tshirt"></i> <span>View Products</span></a></li>
+            <li class="nav-item"><a href="{% url 'shop' %}" class="nav-link"><i class="fas fa-tags"></i> <span>Categories</span></a></li>
+            <li class="nav-item"><a href="{% url 'shop' %}" class="nav-link"><i class="fas fa-warehouse"></i> <span>Inventory</span></a></li>
+        </ul>
+
+        <div class="nav-section-title">Order Management</div>
+        <ul>
+            <li class="nav-item"><a href="{% url 'orders' %}" class="nav-link"><i class="fas fa-shopping-bag"></i> <span>New Orders</span></a></li>
+            <li class="nav-item"><a href="{% url 'orders' %}" class="nav-link"><i class="fas fa-clock"></i> <span>Pending Orders</span></a></li>
+            <li class="nav-item"><a href="{% url 'orders' %}" class="nav-link"><i class="fas fa-check-circle"></i> <span>Delivered</span></a></li>
+        </ul>
+
+        <div class="nav-section-title">Customer Management</div>
+        <ul>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-users"></i> <span>Customer List</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-star"></i> <span>Reviews & Ratings</span></a></li>
+        </ul>
+
+        <div class="nav-section-title">Marketing</div>
+        <ul>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-ticket-alt"></i> <span>Discounts & Coupons</span></a></li>
+        </ul>
+        {% endif %}
+
+        <div class="nav-section-title">Collections</div>
+        <ul>
+            <li class="nav-item"><a href="{% url 'shop_category' 'men' %}" class="nav-link"><i class="fas fa-male"></i> <span>Men Wear</span></a></li>
+            <li class="nav-item"><a href="{% url 'shop_category' 'women' %}" class="nav-link"><i class="fas fa-female"></i> <span>Women Wear</span></a></li>
+            <li class="nav-item"><a href="{% url 'shop_category' 'premium' %}" class="nav-link"><i class="fas fa-gem"></i> <span>Premium</span></a></li>
+        </ul>
+
+        <div class="nav-section-title">System</div>
+        <ul>
+            <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link"><i class="fas fa-user-cog"></i> <span>Profile Settings</span></a></li>
+            {% if user.is_staff %}
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cogs"></i> <span>Website Settings</span></a></li>
+            {% endif %}
+            <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+        </ul>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;" class="animate-fade-in">
+        <div>
+            <h2 style="font-size: 28px; margin-bottom: 4px;">Welcome back, {% if user.is_staff %}Admin{% else %}{{ user.username|default:"Customer" }}{% endif %}</h2>
+            <p style="color: var(--text-muted);">Here's what's happening with your account today.</p>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <a href="{% url 'orders' %}" class="btn btn-glass"><i class="fas fa-download"></i> Export data</a>
+            <a href="{% url 'shop' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</a>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        {% if user.is_staff %}
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.1s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Total Orders</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ total_orders }}</p>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Total Customers</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ total_customers }}</p>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.3s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Total Revenue</h3>
+            <p style="font-size: 24px; font-weight: 700;">₹{{ total_revenue|floatformat:2 }}</p>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.4s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                {% if pending_orders_count > 0 %}
+                <span style="color: #f97316; font-size: 12px; font-weight: 600;">Attention needed</span>
+                {% else %}
+                <span style="color: #4ade80; font-size: 12px; font-weight: 600;">All approved</span>
+                {% endif %}
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Pending Orders</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ pending_orders_count }}</p>
+        </div>
+        {% else %}
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.1s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">My Active Orders</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ dashboard_order_count }}</p>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Wishlist Items</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ wishlist_items }}</p>
+        </div>
+
+        <div class="glass-card animate-fade-in" style="animation-delay: 0.3s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(197, 160, 89, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fas fa-coins"></i>
+                </div>
+            </div>
+            <h3 style="color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 8px;">Loyalty Points</h3>
+            <p style="font-size: 24px; font-weight: 700;">{{ loyalty_points }} pts</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;" class="animate-fade-in" style="animation-delay: 0.5s;">
+        <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="font-size: 18px;">Recent Orders</h3>
+                <a href="{% url 'orders' %}" style="color: var(--primary); text-decoration: none; font-size: 14px;">View All</a>
+            </div>
+            {% if recent_orders and recent_orders|length > 0 %}
+            <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                        <th style="padding: 12px 0;">Order ID</th>
+                        <th style="padding: 12px 0;">Customer</th>
+                        <th style="padding: 12px 0;">Status</th>
+                        <th style="padding: 12px 0;">Date</th>
+                        <th style="padding: 12px 0; text-align: right;">Amount</th>
+                        {% if user.is_staff %}<th style="padding: 12px 0; text-align: center;">Action</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                        <td style="padding: 16px 0;"><strong>#{{ order.id }}</strong></td>
+                        <td style="padding: 16px 0;">{{ order.user.get_full_name|default:order.user.username }}</td>
+                        <td style="padding: 16px 0;">
+                            {% if order.status == 'Pending' %}
+                            <span style="background: rgba(249, 115, 22, 0.1); color: #f97316; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{{ order.status }}</span>
+                            {% elif order.status == 'Accepted' %}
+                            <span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{{ order.status }}</span>
+                            {% elif order.status == 'Shipped' %}
+                            <span style="background: rgba(168, 85, 247, 0.1); color: #a855f7; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{{ order.status }}</span>
+                            {% elif order.status == 'Completed' %}
+                            <span style="background: rgba(74, 222, 128, 0.1); color: #4ade80; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{{ order.status }}</span>
+                            {% else %}
+                            <span style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{{ order.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 16px 0;">{{ order.created_at|date:'M d, Y' }}</td>
+                        <td style="padding: 16px 0; text-align: right;">₹{{ order.total_amount|floatformat:2 }}</td>
+                        {% if user.is_staff %}
+                        <td style="padding: 16px 0; text-align: center;">
+                            <form method="POST" action="{% url 'update_order_status' order.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <select name="status" style="background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--glass-border); padding: 6px 8px; border-radius: 6px; font-size: 12px;" onchange="this.form.submit();">
+                                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Accepted" {% if order.status == 'Accepted' %}selected{% endif %}>Accept</option>
+                                    <option value="Shipped" {% if order.status == 'Shipped' %}selected{% endif %}>Ship</option>
+                                    <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Complete</option>
+                                    <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancel</option>
+                                </select>
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            {% else %}
+            <p style="color: var(--text-muted); margin: 16px 0;">No orders yet. When customers place orders, they will appear here.</p>
+            {% endif %}
+        </div>
+
+        <div class="glass-card">
+            <h3 style="font-size: 18px; margin-bottom: 24px;">Top Categories</h3>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                        <span>Luxury Wear</span>
+                        <span style="color: var(--primary);">65%</span>
+                    </div>
+                    <div style="height: 6px; background: var(--glass-border); border-radius: 3px; overflow: hidden;">
+                        <div style="width: 65%; height: 100%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                        <span>Casual Wear</span>
+                        <span style="color: var(--primary);">25%</span>
+                    </div>
+                    <div style="height: 6px; background: var(--glass-border); border-radius: 3px; overflow: hidden;">
+                        <div style="width: 25%; height: 100%; background: var(--primary);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

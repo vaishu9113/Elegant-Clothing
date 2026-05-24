@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Your Cart | Elegant Clothing{% endblock %}
+
+{% block content %}
+<nav style="padding: 20px 80px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border);">
+    <div style="font-size: 24px; font-weight: 800; color: var(--primary); letter-spacing: 2px;"><a href="{% url 'home' %}" style="color: inherit; text-decoration: none;">ELEGANT</a></div>
+</nav>
+
+<main style="padding: 60px 80px;">
+    <h1 style="font-size: 36px; margin-bottom: 40px;">Shopping Cart</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 350px; gap: 40px;">
+        <div class="glass-card">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted); font-size: 14px;">
+                        <th style="padding: 20px 0; text-align: left;">Product</th>
+                        <th style="padding: 20px 0; text-align: center;">Quantity</th>
+                        <th style="padding: 20px 0; text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                    {% if items %}
+                        {% for item in items %}
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 30px 0;">
+                                <div style="display: flex; gap: 20px; align-items: center;">
+                                    <img src="{{ item.product.image }}" alt="{{ item.product.name }}" style="width: 100px; height: 120px; object-fit: cover; border-radius: 8px;">
+                                    <div>
+                                        <h4 style="font-size: 18px; margin-bottom: 5px;">{{ item.product.name }}</h4>
+                                        <p style="font-size: 14px; color: var(--text-muted);">Size: {{ item.cart_item.size }}</p>
+                                        <form method="POST" action="{% url 'remove_from_cart' item.cart_item.id %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 12px; margin-top: 10px; padding: 0;">Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 30px 0; text-align: center;">
+                                <div style="display: inline-flex; align-items: center; gap: 15px; background: var(--glass); padding: 8px 15px; border-radius: 8px;">
+                                    <form method="POST" action="{% url 'update_cart_quantity' item.cart_item.id %}" style="display: inline; margin: 0; padding: 0;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; font-weight: bold; padding: 0 5px;">-</button>
+                                    </form>
+                                    <span>{{ item.cart_item.quantity }}</span>
+                                    <form method="POST" action="{% url 'update_cart_quantity' item.cart_item.id %}" style="display: inline; margin: 0; padding: 0;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" style="background: none; border: none; color: #fff; cursor: pointer; font-weight: bold; padding: 0 5px;">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td style="padding: 30px 0; text-align: right; font-weight: 700; font-size: 18px;">₹{{ item.total_price|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" style="text-align: center; padding: 50px 0; color: var(--text-muted);">
+                                Your shopping cart is empty. <br><br>
+                                <a href="{% url 'shop' %}" class="btn btn-primary" style="padding: 10px 20px; text-decoration: none; display: inline-block;">Start Shopping</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="glass-card" style="height: fit-content;">
+            <h3 style="font-size: 20px; margin-bottom: 30px;">Order Summary</h3>
+            <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted);">
+                    <span>Subtotal</span>
+                    <span>₹{{ subtotal|floatformat:2 }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted);">
+                    <span>Shipping</span>
+                    <span style="color: #4ade80;">Free</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted);">
+                    <span>Taxes (10%)</span>
+                    <span>₹{{ taxes|floatformat:2 }}</span>
+                </div>
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 20px; display: flex; justify-content: space-between; font-weight: 700; font-size: 20px;">
+                    <span>Total</span>
+                    <span style="color: var(--primary);">₹{{ total|floatformat:2 }}</span>
+                </div>
+            </div>
+            {% if items %}
+            <a href="{% url 'checkout' %}" class="btn btn-primary" style="width: 100%; padding: 15px; display: block; text-align: center; text-decoration: none;">Checkout Now</a>
+            {% else %}
+            <button class="btn btn-primary" style="width: 100%; padding: 15px; opacity: 0.5; cursor: not-allowed;" disabled>Checkout Now</button>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

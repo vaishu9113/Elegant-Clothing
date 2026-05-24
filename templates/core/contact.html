@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | Elegant Clothing{% endblock %}
+
+{% block content %}
+<main style="padding: 100px 80px;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 80px auto;">
+        <h1 style="font-size: 48px; margin-bottom: 20px;">Get in Touch</h1>
+        <p style="color: var(--text-muted); font-size: 18px;">Our luxury concierge team is here to assist you with any inquiries regarding our collections or services.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 80px; max-width: 1200px; margin: 0 auto;">
+        <div>
+            <div style="margin-bottom: 40px;">
+                <h3 style="font-size: 20px; margin-bottom: 20px; color: var(--primary);">Contact Details</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i>
+                        <span style="font-size: 14px;">721 Fashion Ave, Manhattan, NY 10018</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-phone" style="color: var(--primary);"></i>
+                        <span style="font-size: 14px;">+1 (212) 555-0198</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                        <span style="font-size: 14px;">concierge@elegantclothing.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="font-size: 20px; margin-bottom: 20px; color: var(--primary);">Business Hours</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--text-muted);">
+                    <p>Mon - Fri: 9:00 AM - 8:00 PM</p>
+                    <p>Sat - Sun: 10:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" class="form-control" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="john@example.com">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Subject</label>
+                    <input type="text" class="form-control" placeholder="Inquiry about Winter Collection">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Message</label>
+                    <textarea class="form-control" rows="6" placeholder="How can we help you today?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="grid-column: span 2; padding: 18px;">Send Message</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

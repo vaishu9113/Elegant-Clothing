@@ -1,0 +1,158 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Checkout | Elegant Clothing{% endblock %}
+
+{% block content %}
+<main style="padding: 60px 80px;">
+    <h1 style="font-size: 36px; margin-bottom: 40px; text-align: center;">Secure Checkout</h1>
+
+    <form method="POST" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto;">
+            <div>
+                <h3 style="font-size: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Shipping Information</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="first_name" class="form-control" value="{{ first_name_initial }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="last_name" class="form-control" value="{{ last_name_initial }}" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Address</label>
+                        <input type="text" name="address" class="form-control" placeholder="123 Luxury Ave" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" name="city" class="form-control" placeholder="New York" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" name="postal_code" class="form-control" placeholder="10001" required>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Payment Method</h3>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="glass-card" style="padding: 20px; display: flex; align-items: center; justify-content: space-between; border-color: var(--primary);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <input type="radio" name="payment" value="Credit / Debit Card" checked style="accent-color: var(--primary);">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Credit / Debit Card</span>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card" style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+                        <input type="radio" name="payment" value="UPI" style="accent-color: var(--primary);">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>UPI</span>
+                    </div>
+                    <div class="glass-card" style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+                        <input type="radio" name="payment" value="Cash on Delivery" style="accent-color: var(--primary);">
+                        <i class="fas fa-truck"></i>
+                        <span>Cash on Delivery</span>
+                    </div>
+                </div>
+                <div id="card-details" style="display: block; margin-top: 20px;">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" name="card_number" class="form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Enter your card number for credit or debit payment.</p>
+                </div>
+                <div id="upi-details" style="display: none; margin-top: 20px;">
+                    <div class="form-group">
+                        <label>UPI ID</label>
+                        <input type="text" name="upi_id" class="form-control" placeholder="example@bank">
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Enter your UPI ID to complete payment via UPI.</p>
+                </div>
+                <script>
+                    const paymentRadios = document.querySelectorAll('input[name="payment"]');
+                    const upiDetails = document.getElementById('upi-details');
+                    const cardDetails = document.getElementById('card-details');
+                    const upiInput = document.querySelector('input[name="upi_id"]');
+                    const cardInput = document.querySelector('input[name="card_number"]');
+                    function updatePaymentVisibility() {
+                        const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+                        if (selectedPayment === 'UPI') {
+                            upiDetails.style.display = 'block';
+                            cardDetails.style.display = 'none';
+                            upiInput.required = true;
+                            cardInput.required = false;
+                            cardInput.value = '';
+                        } else if (selectedPayment === 'Credit / Debit Card') {
+                            upiDetails.style.display = 'none';
+                            cardDetails.style.display = 'block';
+                            upiInput.required = false;
+                            cardInput.required = true;
+                        } else {
+                            upiDetails.style.display = 'none';
+                            cardDetails.style.display = 'none';
+                            upiInput.required = false;
+                            cardInput.required = false;
+                            cardInput.value = '';
+                        }
+                        if (selectedPayment !== 'UPI') {
+                            upiInput.value = '';
+                        }
+                    }
+                    paymentRadios.forEach(radio => radio.addEventListener('change', updatePaymentVisibility));
+                    updatePaymentVisibility();
+                </script>
+            </div>
+
+            <div>
+                <div class="glass-card">
+                    <h3 style="font-size: 20px; margin-bottom: 30px;">Order Review</h3>
+                    <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px;">
+                        {% for item in items %}
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <img src="{{ item.product.image }}" alt="{{ item.product.name }}" style="width: 50px; height: 60px; object-fit: cover; border-radius: 4px;">
+                            <div style="flex: 1;">
+                                <h5 style="font-size: 14px;">{{ item.product.name }}</h5>
+                                <p style="font-size: 12px; color: var(--text-muted);">Size: {{ item.cart_item.size }} x {{ item.cart_item.quantity }}</p>
+                            </div>
+                            <span style="font-weight: 700;">₹{{ item.total_price|floatformat:2 }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                        <input type="text" class="form-control" placeholder="Promo Code" style="padding: 8px 12px;">
+                        <button type="button" class="btn btn-glass" style="padding: 8px 20px; font-size: 12px;">Apply</button>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                            <span>Subtotal</span>
+                            <span>₹{{ subtotal|floatformat:2 }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                            <span>Shipping</span>
+                            <span style="color: #4ade80;">Free</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                            <span>Taxes (10%)</span>
+                            <span>₹{{ taxes|floatformat:2 }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 20px;">
+                            <span>Total</span>
+                            <span style="color: var(--primary);">₹{{ total|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 30px; padding: 18px;">Complete Purchase</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+{% endblock %}

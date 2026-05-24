@@ -1,0 +1,173 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Elegant Clothing | Style Meets Luxury{% endblock %}
+
+{% block content %}
+<nav style="padding: 30px 80px; display: flex; justify-content: space-between; align-items: center; position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+    <div style="font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: 2px;">ELEGANT</div>
+    <div style="display: flex; gap: 40px; font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+        <a href="{% url 'shop' %}" style="color: #fff; text-decoration: none;">Collection</a>
+        <a href="{% url 'shop' %}" style="color: #fff; text-decoration: none;">New Arrivals</a>
+        <a href="{% url 'shop_category' 'men' %}" style="color: #fff; text-decoration: none;">Men</a>
+        <a href="{% url 'shop_category' 'women' %}" style="color: #fff; text-decoration: none;">Women</a>
+    </div>
+    <div style="display: flex; gap: 24px; align-items: center;">
+        <i class="fas fa-search" style="cursor: pointer;"></i>
+        <a href="{% url 'cart' %}" style="color: #fff; text-decoration: none;"><i class="fas fa-shopping-bag" style="cursor: pointer;"></i></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-primary" style="padding: 8px 20px; font-size: 13px;">Dashboard</a>
+            <a href="{% url 'logout' %}" class="btn btn-glass" style="padding: 8px 20px; font-size: 13px;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 20px; font-size: 13px;">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center;">
+    <div class="hero-content animate-fade-in">
+        <span style="color: var(--primary); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; font-size: 14px; display: block; margin-bottom: 20px;">Premium Quality</span>
+        <h1 class="hero-title">Elegant Clothing – Style Meets Luxury</h1>
+        <p style="color: var(--text-muted); font-size: 18px; margin-bottom: 40px; line-height: 1.6;">Discover the finest selection of luxury fashion curated for the modern individual who values sophistication and quality.</p>
+        <div style="display: flex; gap: 20px;">
+            <a href="{% url 'shop' %}" class="btn btn-primary" style="padding: 16px 40px;">Shop Now</a>
+            <a href="{% url 'shop' %}" class="btn btn-glass" style="padding: 16px 40px;">Explore Collection</a>
+        </div>
+    </div>
+</section>
+
+<section style="padding: 100px 80px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
+        <div>
+            <span style="color: var(--primary); text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: 700;">Trending Now</span>
+            <h2 style="font-size: 42px; margin-top: 10px;">Fashion Collections</h2>
+        </div>
+        <a href="{% url 'shop' %}" style="color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary); padding-bottom: 4px;">View All Categories</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+        <a href="{% url 'shop_category' 'streetwear' %}" class="glass-card" style="display: block; padding: 0; overflow: hidden; position: relative; height: 400px; cursor: pointer; text-decoration: none; color: inherit;">
+            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=1974&auto=format&fit=crop" alt="Streetwear collection" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                <h3 style="font-size: 20px; margin-bottom: 4px;">Streetwear</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">24 Products</p>
+            </div>
+        </a>
+        <a href="{% url 'shop_category' 'casual' %}" class="glass-card" style="display: block; padding: 0; overflow: hidden; position: relative; height: 400px; cursor: pointer; text-decoration: none; color: inherit;">
+            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1964&auto=format&fit=crop" alt="Casual collection" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                <h3 style="font-size: 20px; margin-bottom: 4px;">Casual</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">18 Products</p>
+            </div>
+        </a>
+        <a href="{% url 'shop_category' 'formal' %}" class="glass-card" style="display: block; padding: 0; overflow: hidden; position: relative; height: 400px; cursor: pointer; text-decoration: none; color: inherit;">
+            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1964&q=80&sat=-100" alt="Formal collection" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                <h3 style="font-size: 20px; margin-bottom: 4px;">Formal</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">12 Products</p>
+            </div>
+        </a>
+        <a href="{% url 'shop_category' 'luxury' %}" class="glass-card" style="display: block; padding: 0; overflow: hidden; position: relative; height: 400px; cursor: pointer; text-decoration: none; color: inherit;">
+            <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=2070&auto=format&fit=crop" alt="Luxury collection" style="width: 100%; height: 100%; object-fit: cover; transition: var(--transition);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                <h3 style="font-size: 20px; margin-bottom: 4px;">Luxury</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">36 Products</p>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section style="padding: 100px 80px; background: #050505;">
+    <h2 style="font-size: 42px; margin-bottom: 60px; text-align: center;">Featured Products</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px;">
+        {% for product in featured_products %}
+        <div class="glass-card animate-fade-in" style="animation-delay: {{ forloop.counter0|add:0.2 }}s;">
+            <div style="position: relative; overflow: hidden; border-radius: 12px; margin-bottom: 20px;">
+                <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <div style="position: absolute; top: 20px; right: 20px;">
+                    <button class="btn btn-glass" style="width: 40px; height: 40px; border-radius: 50%; padding: 0;"><i class="far fa-heart"></i></button>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                <div>
+                    <h3 style="font-size: 18px; margin-bottom: 4px;">{{ product.name }}</h3>
+                    <div style="color: var(--primary); font-size: 12px;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        {% if product.rating >= 4.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="fas fa-star"></i>{% endif %}
+                        <span style="color: var(--text-muted); margin-left: 5px;">({{ product.rating }})</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">{{ product.brand }}</p>
+                </div>
+                <p style="font-size: 20px; font-weight: 700; color: var(--primary);">₹{{ product.price }}</p>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <a href="{% url 'product_details' product.id %}" class="btn btn-primary" style="flex: 1; text-align: center; text-decoration: none;">View Details</a>
+                <button class="btn btn-glass" style="flex: 1;">Add to Cart</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section style="padding: 100px 80px; text-align: center;">
+    <h2 style="font-size: 32px; margin-bottom: 60px;">What Our Clients Say</h2>
+    <div style="max-width: 800px; margin: 0 auto;">
+        <i class="fas fa-quote-left" style="font-size: 48px; color: var(--primary); opacity: 0.3; margin-bottom: 30px;"></i>
+        <p style="font-size: 24px; font-style: italic; line-height: 1.6; margin-bottom: 30px;">"The quality and craftsmanship of Elegant Clothing are unparalleled. Every piece feels like it was tailored specifically for me. Truly a luxury experience from start to finish."</p>
+        <h4 style="font-size: 18px; font-weight: 700;">Julianna Marie</h4>
+        <p style="color: var(--text-muted); font-size: 14px;">Fashion Influencer & Model</p>
+    </div>
+</section>
+
+<footer style="padding: 100px 80px; border-top: 1px solid var(--glass-border); background: #000;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 80px;">
+        <div>
+            <div style="font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 30px;">ELEGANT</div>
+            <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px;">Crafting timeless elegance and sophisticated luxury for the modern fashion enthusiast. Join our journey in redefining style.</p>
+            <div style="display: flex; gap: 20px; font-size: 20px;">
+                <i class="fab fa-instagram" style="cursor: pointer;"></i>
+                <i class="fab fa-facebook-f" style="cursor: pointer;"></i>
+                <i class="fab fa-twitter" style="cursor: pointer;"></i>
+                <i class="fab fa-pinterest" style="cursor: pointer;"></i>
+            </div>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 30px;">Quick Links</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; font-size: 14px; color: var(--text-muted);">
+                <li><a href="#" style="color: inherit; text-decoration: none;">About Us</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Collections</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Store Locator</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Careers</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 30px;">Customer Care</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px; font-size: 14px; color: var(--text-muted);">
+                <li><a href="#" style="color: inherit; text-decoration: none;">Contact Us</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Shipping Policy</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Returns & Exchanges</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">FAQs</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 30px;">Newsletter</h4>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Subscribe to receive updates, access to exclusive deals, and more.</p>
+            <div style="display: flex; gap: 10px;">
+                <input type="email" class="form-control" placeholder="Enter your email" style="background: var(--glass);">
+                <button class="btn btn-primary">Join</button>
+            </div>
+        </div>
+    </div>
+    <div style="border-top: 1px solid var(--glass-border); padding-top: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);">
+        <p>&copy; 2026 Elegant Clothing. All Rights Reserved.</p>
+        <div style="display: flex; gap: 30px;">
+            <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a>
+            <a href="#" style="color: inherit; text-decoration: none;">Terms & Conditions</a>
+        </div>
+    </div>
+</footer>
+{% endblock %}

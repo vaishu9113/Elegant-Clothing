@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}About Us | Elegant Clothing{% endblock %}
+
+{% block content %}
+<main>
+    <section style="padding: 120px 80px; text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center;">
+        <h1 style="font-size: 64px; margin-bottom: 20px;">The Legacy of Elegance</h1>
+        <p style="max-width: 800px; margin: 0 auto; font-size: 20px; line-height: 1.6; color: rgba(255,255,255,0.8);">Defining luxury fashion since 1998, Elegant Clothing brings together timeless craftsmanship and modern sophistication.</p>
+    </section>
+
+    <section style="padding: 100px 80px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div class="glass-card" style="padding: 0; overflow: hidden; height: 500px;">
+                <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1974&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+                <h2 style="font-size: 36px; margin-bottom: 30px;">Our Mission</h2>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 18px; margin-bottom: 30px;">We believe that clothing is more than just fabric—it's an expression of identity and a testament to quality. Our mission is to provide the modern individual with pieces that exude confidence, luxury, and timeless style.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 24px; margin-bottom: 10px;">25+</h4>
+                        <p style="font-size: 14px; color: var(--text-muted);">Years of Excellence</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 24px; margin-bottom: 10px;">50k+</h4>
+                        <p style="font-size: 14px; color: var(--text-muted);">Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 100px 80px; background: #050505;">
+        <h2 style="font-size: 36px; text-align: center; margin-bottom: 60px;">Our Core Values</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
+            <div class="glass-card text-center" style="text-align: center;">
+                <i class="fas fa-gem" style="font-size: 40px; color: var(--primary); margin-bottom: 25px;"></i>
+                <h3 style="margin-bottom: 15px;">Quality First</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">We source only the finest materials from around the globe to ensure every piece meets our rigorous standards.</p>
+            </div>
+            <div class="glass-card text-center" style="text-align: center;">
+                <i class="fas fa-leaf" style="font-size: 40px; color: var(--primary); margin-bottom: 25px;"></i>
+                <h3 style="margin-bottom: 15px;">Sustainability</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">Commitment to ethical production and sustainable practices in every step of our manufacturing process.</p>
+            </div>
+            <div class="glass-card text-center" style="text-align: center;">
+                <i class="fas fa-infinity" style="font-size: 40px; color: var(--primary); margin-bottom: 25px;"></i>
+                <h3 style="margin-bottom: 15px;">Timeless Design</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">Fashion trends fade, but elegance is eternal. Our designs are crafted to last a lifetime.</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
